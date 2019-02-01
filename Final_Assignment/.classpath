@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="lib/core-0.26.jar"/>
+	<classpathentry kind="lib" path="lib/GeographicLib-Java-1.44.jar"/>
+	<classpathentry kind="lib" path="lib/gt-api-18.4.jar"/>
+	<classpathentry kind="lib" path="lib/gt-epsg-wkt-18.4.jar"/>
+	<classpathentry kind="lib" path="lib/gt-jts-wrapper-18.4.jar"/>
+	<classpathentry kind="lib" path="lib/gt-metadata-18.4.jar"/>
+	<classpathentry kind="lib" path="lib/gt-opengis-18.4.jar"/>
+	<classpathentry kind="lib" path="lib/gt-referencing-18.4.jar"/>
+	<classpathentry kind="lib" path="lib/jai_core-1.1.3.jar"/>
+	<classpathentry kind="lib" path="lib/jdom-1.1.3.jar"/>
+	<classpathentry kind="lib" path="lib/jgridshift-1.0.jar"/>
+	<classpathentry kind="lib" path="lib/jsr-275-1.0-beta-2.jar"/>
+	<classpathentry kind="lib" path="/daten/201819WS/SWE/eot/eot_graf_mirkovic_papp/Final_Assignment/lib/gt-xsd-wms-18.4.jar"/>
+	<classpathentry kind="lib" path="/daten/201819WS/SWE/eot/eot_graf_mirkovic_papp/Final_Assignment/lib/gt-wms-18.4.jar"/>
+	<classpathentry kind="lib" path="/daten/201819WS/SWE/eot/eot_graf_mirkovic_papp/Final_Assignment/lib/gt-main-18.4.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
