@@ -49,6 +49,23 @@ public class WMSConnector {
 		// a GetMap-Request object is created using the established wms connection
 		GetMapRequest mapRequest = wms.createGetMapRequest();
 		
+		// define the output format -> png
+		mapRequest.setFormat("image/png");
+		
+		// set the dimensions of the returned image
+		mapRequest.setDimensions("250", "250"); //sets the dimensions of the image to be returned from the server
+		
+		// should the image be transparent?
+		mapRequest.setTransparent(true);
+		
+		// srs should be WGS-84
+		mapRequest.setSRS("EPSG:4326");
+		
+		// setup the bounding box
+		mapRequest.setBBox("-131.13151509433965,46.60532747661736,-117.61620566037737,56.34191403281659");
+		
+		
+		//return 0 if everything was fine
 		return succCode;
 		
 	}
