@@ -16,6 +16,9 @@ import org.geotools.ows.ServiceException;
 
 public class WMSConnector {
 	
+	final int errorCode = -1;
+	final int succCode = 0;
+	
 	
 	public int connect2WMS(String URLString_, double[] bbox_) {
 		
@@ -28,6 +31,7 @@ public class WMSConnector {
 		} catch (MalformedURLException e) {
 			  System.out.println("The URL you provided is invalid!");
 			  e.printStackTrace();
+			  return errorCode;
 		}
 		
 		//now a WMS object is created using the provided URL
@@ -44,6 +48,9 @@ public class WMSConnector {
 				
 		// a GetMap-Request object is created using the established wms connection
 		GetMapRequest mapRequest = wms.createGetMapRequest();
+		
+		return succCode;
+		
 	}
 	
 
