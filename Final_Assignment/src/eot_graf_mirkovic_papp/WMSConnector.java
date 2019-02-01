@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -16,6 +15,8 @@ import org.geotools.data.ows.WMSCapabilities;
 import org.geotools.data.wms.WMSUtils;
 import org.geotools.data.wms.WebMapServer;
 import org.geotools.ows.ServiceException;
+
+import jdk.internal.org.xml.sax.SAXException;
 
 /*
  * this public class connects to a WMS service 
@@ -34,8 +35,6 @@ public class WMSConnector {
 	// define codes that will determine whether a WMS-Connection was established successfully or not
 	final int errorCode = -1;
 	final int succCode = 0;
-	
-	Layer layerName = null;						//layer to be retrieved from server
 	
 	// class variables required to connect to WMS-Server and store result
 	String URLString;							//URL of the WMS-Server
@@ -61,8 +60,6 @@ public class WMSConnector {
 		bbox[1] = 0.;				//y_min is zero per default
 		bbox[2] = 0.;				//x_max is zero per default
 		bbox[3] = 0.;				//y_max is zero per default
-		
-		layerName = null;			//layer is empty per default
 		
 		SRS = "EPSG:4326";			//SRS is WGS-84 per default
 		
@@ -105,6 +102,48 @@ public class WMSConnector {
 	
 	/* ----------------------------------------------------------------
 	 * 
+	 * 			Define the getter/setter for the class
+	 * 
+	   ---------------------------------------------------------------*/ 
+	
+	//see the actual WMS parameters
+	public void getWMSConnectionParams() {
+		
+		System.out.println("URL:        " + URLString);
+		System.out.println("Bounding Box Extents:");
+		System.out.println("x_min:      " + bbox[0]);
+		System.out.println("y_min:      " + bbox[1]);
+		System.out.println("x_max:      " + bbox[2]);
+		System.out.println("y_max:      " + bbox[3]);
+		System.out.println("SRS:        " + SRS);
+		System.out.println("Image-Size: " + imageDimensions[0] + " , " + imageDimensions[1]);
+		System.out.println("Output-Dir: " + storageLocation);
+		
+	}
+	
+	// set WMS parameters
+	public void setWMSConnectionParams
+	(String URLString_, double[] bbox_, String SRS_, String storageLocation_, boolean transparent_,
+			String[] imageDimensions_) {
+		
+		URLString = URLString_;				//URL
+		
+		bbox = bbox_;						//bounding box
+		
+		SRS = SRS_;							//SRS
+		
+		storageLocation = storageLocation_;	//where to store the result?
+		
+		transparent = transparent_;			//transparency is switched off per default
+		
+		// size of the output image (x,y) in pixels
+		imageDimensions[0] = imageDimensions_[0];
+		imageDimensions[1] = imageDimensions_[1];
+	
+	}
+	
+	/* ----------------------------------------------------------------
+	 * 
 	 * 			Define the methods for the class
 	 * 
 	   ---------------------------------------------------------------*/ 
@@ -113,7 +152,13 @@ public class WMSConnector {
 	public Layer[] getLayerList() {
 		
 		//open connection to wmsServer
-		WebMapServer wmsServer = connectWMS();
+		WebMapServer wmsServer = null;
+		try {
+			wmsServer = connectWMS();
+		} catch (SAXException e) {
+			System.out.println("Unable to request from WMS-Server!");
+			e.printStackTrace();
+		}
 		
 		//sent getCapabilities request to server
 		WMSCapabilities capabilities = wmsServer.getCapabilities();
@@ -126,7 +171,7 @@ public class WMSConnector {
 	
 	//method to connect to WMS-Server (opens a connection for a given URL) -> is private
 	//returns a WebMapServer object
-	private WebMapServer connectWMS() {
+	private WebMapServer connectWMS() throws SAXException {
 		
 		//setup the server connection using URL
 		URL url = null;
@@ -150,17 +195,22 @@ public class WMSConnector {
 			System.out.println("There was an IOError with the WMS-Service!");
 			e1.printStackTrace();
 		}
-		
 		//return the wms-object
 		return wms;
 		
 	}
 	
 	//method to retrieve an image of the requested layer in a user-defined region from a given WMS-Server
-	public int retrieveImageFromWMS() {
+	public int retrieveImageFromWMS(Layer layerName_) {
 		
 		//open the WMS connection
-		WebMapServer wmsServer = connectWMS();
+		WebMapServer wmsServer = null;
+		try {
+			wmsServer = connectWMS();
+		} catch (SAXException e2) {
+			System.out.println("Unable to request from WMS-Server!");
+			e2.printStackTrace();
+		}
 				
 		// a GetMap-Request object is created using the established wms connection
 		GetMapRequest mapRequest = wmsServer.createGetMapRequest();
@@ -183,7 +233,7 @@ public class WMSConnector {
 		mapRequest.setBBox(srsString);
 		
 		// set the desired layer into the request
-		mapRequest.addLayer(layerName);
+		mapRequest.addLayer(layerName_);
 		
 		// now, as all parameters of the request are specified, the response could be requested and read as image
 		GetMapResponse response = null;
