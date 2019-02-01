@@ -17,8 +17,7 @@ public class GoogleEarthTweetMapper {
 		//firstly, a WMS connection is established and the available layers are listed
 		
 		//URL of the WMS-Server
-		String URLString = "http://giswebservices.massgis.state.ma.us/geoserver/wms"
-				+"?VERSION=1.1.1&Request=GetCapabilities&Service=WMS";
+		String URLString = "http://129.206.228.72/cached/osm/WMSServer?REQUEST=GetCapabilities&SERVICE=WMS&VERSION=1.1.1";
 		
 		//array for storing the bounding box
 		double[] bbox = {-71.13,42.32,-71.03,42.42};
@@ -41,7 +40,11 @@ public class GoogleEarthTweetMapper {
 		
 		Layer[] layers = con.getLayerList();
 		
-		System.out.println("Fertig!");
+		//TEST!!!
+		
+		int status = con.retrieveImageFromWMS(layers[3]);
+		
+		System.out.println(status);
 
 	}
 
