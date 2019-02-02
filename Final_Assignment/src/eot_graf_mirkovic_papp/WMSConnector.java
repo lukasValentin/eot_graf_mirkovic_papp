@@ -209,6 +209,9 @@ public class WMSConnector {
 		// a GetMap-Request object is created using the established wms connection
 		GetMapRequest mapRequest = wmsServer.createGetMapRequest();
 		
+		//define version
+		mapRequest.setVersion("1.1.1");
+		
 		// define the output format -> png (is fixed for all requests)
 		mapRequest.setFormat("image/png");
 		

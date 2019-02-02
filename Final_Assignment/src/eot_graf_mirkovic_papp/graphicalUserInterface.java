@@ -1,14 +1,13 @@
 package eot_graf_mirkovic_papp;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -18,20 +17,29 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import org.geotools.data.ows.Layer;
 
-public class graphicalUserInterface extends JFrame {
+
+public class graphicalUserInterface extends JDialog {
 	
 	private static final long serialVersionUID = 1L;
 	
-	//setup up the GUI elements -> must be public to be read from the main() method
-	public JPanel contentPanel;
-	public JTextField tfURL;
-	public JTextField tfSRS;
-	public JTextField tfBbox;
-	public JButton chooseButton;
-	public JTextArea chosenFile;
-	public JButton openButton;
-	public JTextArea chosenLoc;
+	//setup up the GUI elements -> are private
+	private JPanel contentPanel;
+	private JTextField tfURL;
+	private JTextField tfSRS;
+	private JTextField tfBbox;
+	private JButton chooseButton;
+	private JTextArea chosenFile;
+	private JButton openButton;
+	private JTextArea chosenLoc;
+	
+	//the values the user enters are public
+	public String URLString;
+	public String SRS;
+	public String bbox;
+	public String tweetFile;
+	public String storageLocation;
 	
 	//specify the frame of the GUI
 	//therefore, the constructor of graphicalUserInterface is used
@@ -39,14 +47,17 @@ public class graphicalUserInterface extends JFrame {
 	
 	graphicalUserInterface() {
 		
-		//title of the frame
-		setTitle("GoogleEarthTweetMapper");
+		//window should be resizable
+		this.setResizable(true);
 		
-		//the way the frame could be closed
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//title of the dialog
+		this.setTitle("GoogleEarthTweetMapper");
+		
+		//the way the dialog could be closed
+		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		
 		//bounds of the frame
-		setBounds(100,100,500,600);
+		this.setBounds(100,100,500,600);
 		
 		//create a content panel
 		contentPanel = new JPanel();
@@ -202,14 +213,26 @@ public class graphicalUserInterface extends JFrame {
 		// when start is pressed then a message window opens to inform the user
 		goButton.addActionListener(new ActionListener () {
 		
-		public void actionPerformed(ActionEvent e) {
+			@Override
+			public void actionPerformed(ActionEvent e) {
 				
-				JOptionPane.showMessageDialog
-					(graphicalUserInterface.this, "GoogleEarthTweetMapper starts now!\nPlease wait.");
+				if (e.getSource() == goButton) {
+					
+					//try to run the GUI -> call run GUI method
+					int res = 
+							JOptionPane.showConfirmDialog(null, null, "The program will start now!", JOptionPane.PLAIN_MESSAGE);
+					if (res == JOptionPane.OK_OPTION) {
+						
+						//get the current thread and stop it
+						callWMSConnector();
+					}
+					
+			} //end if
 				
-				}
+		  } //end actionPerformed
 			
-		});
+		}); // end add actionListener
+		
 	
 		JButton endButton = new JButton("Cancel");
 		endButton.setBounds(100,450,80,30);
@@ -227,48 +250,88 @@ public class graphicalUserInterface extends JFrame {
 			
 		contentPanel.add(goButton);
 		contentPanel.add(endButton);
-			
-				
-		
+	
 	} // end of constructor
 	
-	//try to run the GUI
+	
 	public void runGUI() {
-		
+	
 		//setup a specific look and feel -> surround with try-catch
 		try {
-			
+	
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			
+	
 		} catch (Throwable t) {
-			
+	
 			t.printStackTrace();
-			
+	
 		}
-		
+
 		//now, a new thread should be created to allow to run the program
 		EventQueue.invokeLater(new Runnable() {
-			
+	
 			public void run() {
-				
+		
 				//try-catch
 				try {
-					
+			
 					//call the class constructor to create the frame
-					graphicalUserInterface frame = new graphicalUserInterface();
+					graphicalUserInterface gui = new graphicalUserInterface();
 					//set visible
-					frame.setVisible(true);
+					gui.setVisible(true);
 					
-				} catch (Exception e){
 					
-					e.printStackTrace();
-					
-				}
-			}
+				} catch (Exception ex){
+			
+					ex.printStackTrace();
+			
+				} //end try catch
+				
 		
-		});
+			} //end run()
+
+		}); //end runnable
 		
 
-	}
+	} // end runGUI()
 	
-}
+	//private method to call the WMS-Connector
+	private void callWMSConnector() {
+		
+		//collect the user-inputs from the GUI
+		URLString = tfURL.getText();
+		bbox = tfBbox.getText();
+		SRS = tfSRS.getText();
+		storageLocation = chosenLoc.getText();
+		tweetFile = chosenFile.getText();
+		
+		//output image of WMS-Request should be transparent
+		boolean transparent = true;
+				
+		//dimensions of the output image -> user input??				
+		String[] imageDimensions = {"250", "250"};
+				
+				
+		// call the constructor of the WMS-Connector class and instantiate an object of this class
+		WMSConnector con = new WMSConnector
+						(URLString, bbox, SRS, storageLocation, 
+								transparent, imageDimensions);
+				
+		Layer[] layers = con.getLayerList();
+		
+		//TEST!!! -> to do: Layer should be chosen by user
+		
+		int status = con.retrieveImageFromWMS(layers[3]);
+		
+		if (status == 0) {
+			JOptionPane.showMessageDialog
+				(contentPanel, "Finished!");
+		
+		} // end if
+	
+	} // end method 
+	
+		
+} //end class graphicalUserInterface
+
+
