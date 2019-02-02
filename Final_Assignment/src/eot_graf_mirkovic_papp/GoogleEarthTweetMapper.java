@@ -3,6 +3,7 @@ package eot_graf_mirkovic_papp;
 import org.geotools.data.ows.Layer;
 
 import eot_graf_mirkovic_papp.WMSConnector;
+import eot_graf_mirkovic_papp.graphicalUserInterface;
 
 /*
  * this public class holds the main method
@@ -11,6 +12,9 @@ import eot_graf_mirkovic_papp.WMSConnector;
 public class GoogleEarthTweetMapper {
 
 	public static void main(String[] args) {
+		
+		graphicalUserInterface gui = new graphicalUserInterface();
+		gui.runGUI();
 		
 		//calls the required classes to perform the task
 		
