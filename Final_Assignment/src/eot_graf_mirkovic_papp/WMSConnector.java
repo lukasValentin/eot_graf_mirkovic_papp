@@ -38,7 +38,7 @@ public class WMSConnector {
 	
 	// class variables required to connect to WMS-Server and store result
 	String URLString;							//URL of the WMS-Server
-	double[] bbox = new double[4];				//array for storing the bounding box
+	String bbox;								//array for storing the bounding box
 	
 	String SRS;									//spatial reference system
 	String storageLocation;						//where should the result be stored (directory)?
@@ -56,10 +56,7 @@ public class WMSConnector {
 		
 		URLString = "";				//URL is empty per default
 		
-		bbox[0] = 0.;				//x_min is zero per default
-		bbox[1] = 0.;				//y_min is zero per default
-		bbox[2] = 0.;				//x_max is zero per default
-		bbox[3] = 0.;				//y_max is zero per default
+		bbox = "";					//bbox is empty per default
 		
 		SRS = "EPSG:4326";			//SRS is WGS-84 per default
 		
@@ -81,7 +78,7 @@ public class WMSConnector {
 	
 	//the more advanced class constructor -> allows for user-defined inputs
 	WMSConnector
-		(String URLString_, double[] bbox_, String SRS_, String storageLocation_, boolean transparent_,
+		(String URLString_, String bbox_, String SRS_, String storageLocation_, boolean transparent_,
 				String[] imageDimensions_) {
 		
 		URLString = URLString_;				//URL
@@ -111,10 +108,7 @@ public class WMSConnector {
 		
 		System.out.println("URL:        " + URLString);
 		System.out.println("Bounding Box Extents:");
-		System.out.println("x_min:      " + bbox[0]);
-		System.out.println("y_min:      " + bbox[1]);
-		System.out.println("x_max:      " + bbox[2]);
-		System.out.println("y_max:      " + bbox[3]);
+		System.out.println(bbox);
 		System.out.println("SRS:        " + SRS);
 		System.out.println("Image-Size: " + imageDimensions[0] + " , " + imageDimensions[1]);
 		System.out.println("Output-Dir: " + storageLocation);
@@ -123,7 +117,7 @@ public class WMSConnector {
 	
 	// set WMS parameters
 	public void setWMSConnectionParams
-	(String URLString_, double[] bbox_, String SRS_, String storageLocation_, boolean transparent_,
+	(String URLString_, String bbox_, String SRS_, String storageLocation_, boolean transparent_,
 			String[] imageDimensions_) {
 		
 		URLString = URLString_;				//URL
@@ -229,8 +223,7 @@ public class WMSConnector {
 		
 		// setup the bounding box -> therefore the double array must be converted to a single string
 		// therefore the private method getSRSAsString is called
-		String srsString = getSRSAsString(bbox);
-		mapRequest.setBBox(srsString);
+		mapRequest.setBBox(bbox);
 		
 		// set the desired layer into the request
 		mapRequest.addLayer(layerName_);
@@ -271,37 +264,6 @@ public class WMSConnector {
 		return succCode;
 		
 	}
-	
-	//method to convert the bbox double array into a single string -> is only visible within the class
-	private String getSRSAsString(double[] bbox_) {
-		
-		String srsString = "";
-		
-		//bbox_ must have exactly 4 elements (xmin,ymin,xmax,ymax)
-		if (bbox_.length != 4) {
-			System.out.print("Invalid bounding box provided!");
-			// an empty String will be returned if bbox_ is invalid
-			return srsString;
-		}
-		
-		for (int ii=0; ii<4; ii++) {
-			
-			//convert the coordinates stored in the bbox_ array to String
-			String coorStr = Double.toString(bbox_[ii]);
-			
-			if (ii < 3) {
-				//append to srsString -> must be separated by commas except the last element
-				srsString += coorStr;
-				srsString += ",";
-			} else {
-				srsString += coorStr;
-			}
-			
-		}
-		
-		return srsString;
-	}
-	
 	
 
 }

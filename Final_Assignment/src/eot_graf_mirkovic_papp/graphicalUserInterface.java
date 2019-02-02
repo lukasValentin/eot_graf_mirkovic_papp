@@ -110,10 +110,10 @@ public class graphicalUserInterface extends JFrame {
 		// add an action listener here to allow for more complex user interaction
 		chooseButton.addActionListener(new ActionListener() {
 			
-			// implementation of the abstract method actionPerformed of abstract
-			// class ActionListener
-			@Override
-			public void actionPerformed(ActionEvent e) {
+		// implementation of the abstract method actionPerformed of abstract
+		// class ActionListener
+		@Override
+		public void actionPerformed(ActionEvent e) {
 
 			    if (e.getSource() == chooseButton) {
 			    	
@@ -134,40 +134,40 @@ public class graphicalUserInterface extends JFrame {
 
 				} // end actionPerformed
 			
-			}); //end action Listener
+		}); //end action Listener
 		
-			contentPanel.add(chooseButton);
-			contentPanel.add(chosenFile);
-			// Storage Location
-			// this operation requires to use a file chooser
-		    JFileChooser fc = new JFileChooser();
-		    // setup a startup directory
-		    fc.setCurrentDirectory(new java.io.File("."));
-		    fc.setDialogTitle("Please select a directory");
-		    fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		    // remove the unnecessary file filter
-		    fc.setAcceptAllFileFilterUsed(false);
-		    
-		    //create a label as usual
-			JLabel lblStorageLoc = new JLabel("Directory to store the results");
-			lblStorageLoc.setBounds(10, 291, 357, 17);
-			contentPanel.add(lblStorageLoc);
-			
-			// instead of a text field a button is required here
-			openButton = new JButton("Choose ...");
-			openButton.setBounds(10,311,157,25);
-			
-			// also add an text field to show the chosen directory to the user
-			chosenLoc = new JTextArea();
-			chosenLoc.setBounds(10, 341, 400, 25);
-			
-			// add an action listener here to allow for more complex user interaction
-			openButton.addActionListener(new ActionListener() {
-			
-			// implementation of the abstract method actionPerformed of abstract
-			// class ActionListener
-			@Override
-			public void actionPerformed(ActionEvent e) {
+		contentPanel.add(chooseButton);
+		contentPanel.add(chosenFile);
+		// Storage Location
+		// this operation requires to use a file chooser
+	    JFileChooser fc = new JFileChooser();
+	    // setup a startup directory
+	    fc.setCurrentDirectory(new java.io.File("."));
+	    fc.setDialogTitle("Please select a directory");
+	    fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+	    // remove the unnecessary file filter
+	    fc.setAcceptAllFileFilterUsed(false);
+	    
+	    //create a label as usual
+		JLabel lblStorageLoc = new JLabel("Directory to store the results");
+		lblStorageLoc.setBounds(10, 291, 357, 17);
+		contentPanel.add(lblStorageLoc);
+		
+		// instead of a text field a button is required here
+		openButton = new JButton("Choose ...");
+		openButton.setBounds(10,311,157,25);
+		
+		// also add an text field to show the chosen directory to the user
+		chosenLoc = new JTextArea();
+		chosenLoc.setBounds(10, 341, 400, 25);
+		
+		// add an action listener here to allow for more complex user interaction
+		openButton.addActionListener(new ActionListener() {
+		
+		// implementation of the abstract method actionPerformed of abstract
+		// class ActionListener
+		@Override
+		public void actionPerformed(ActionEvent e) {
 
 			    if (e.getSource() == openButton) {
 			    	
@@ -188,34 +188,34 @@ public class graphicalUserInterface extends JFrame {
 
 				} // end actionPerformed
 			
-			}); //end action Listener
+		}); //end action Listener
+	
+		// add to content panel
+		contentPanel.add(openButton);
+		contentPanel.add(chosenLoc);
 		
-			// add to content panel
-			contentPanel.add(openButton);
-			contentPanel.add(chosenLoc);
-			
-			// now, a "go" and "cancel" button are required
-			
-			JButton goButton = new JButton("Start");
-			goButton.setBounds(10, 450, 80, 30);
-			
-			// when start is pressed then a message window opens to inform the user
-			goButton.addActionListener(new ActionListener () {
-			
-			public void actionPerformed(ActionEvent e) {
+		// now, a "go" and "cancel" button are required
+		
+		JButton goButton = new JButton("Start");
+		goButton.setBounds(10, 450, 80, 30);
+		
+		// when start is pressed then a message window opens to inform the user
+		goButton.addActionListener(new ActionListener () {
+		
+		public void actionPerformed(ActionEvent e) {
 				
 				JOptionPane.showMessageDialog
 					(graphicalUserInterface.this, "GoogleEarthTweetMapper starts now!\nPlease wait.");
 				
 				}
 			
-			});
+		});
+	
+		JButton endButton = new JButton("Cancel");
+		endButton.setBounds(100,450,80,30);
 		
-			JButton endButton = new JButton("Cancel");
-			endButton.setBounds(100,450,80,30);
-			
-			//when cancel is pressed then the program is terminated and the GUI closed
-			endButton.addActionListener(new ActionListener() {
+		//when cancel is pressed then the program is terminated and the GUI closed
+		endButton.addActionListener(new ActionListener() {
 				
 				public void actionPerformed(ActionEvent e) {
 					
@@ -223,10 +223,10 @@ public class graphicalUserInterface extends JFrame {
 					
 				}
 				
-			});
+		});
 			
-			contentPanel.add(goButton);
-			contentPanel.add(endButton);
+		contentPanel.add(goButton);
+		contentPanel.add(endButton);
 			
 				
 		

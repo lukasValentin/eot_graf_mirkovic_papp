@@ -13,26 +13,27 @@ public class GoogleEarthTweetMapper {
 
 	public static void main(String[] args) {
 		
+		//calls the required classes to perform the task
+		
 		graphicalUserInterface gui = new graphicalUserInterface();
 		gui.runGUI();
 		
-		//calls the required classes to perform the task
-		
-		//firstly, a WMS connection is established and the available layers are listed
+		/*
+		 * now, we can extract the user-entered values from the GUI
+		 */
 		
 		//URL of the WMS-Server
-		String URLString = "http://129.206.228.72/cached/osm/WMSServer?REQUEST=GetCapabilities&SERVICE=WMS&VERSION=1.1.1";
-		
-		//array for storing the bounding box
-		double[] bbox = {-71.13,42.32,-71.03,42.42};
-		
+		String URLString = gui.tfURL.getText();
+		//Bounding Box (xmin,ymin,xmax,ymax)
+		String bbox = gui.tfBbox.getText();
 		//spatial reference system
-		String SRS = "EPSG:4326";
+		String SRS = gui.tfSRS.getText();
+		//csv-file with tweets
+		String tweetFile = gui.chosenFile.getText();
+		//storage location
+		String storageLocation = gui.chosenLoc.getText();
 		
-		//where should the result be stored (directory)?
-		String storageLocation = "/daten/201819WS/SWE/";
-		
-		//should the result be transparent?
+		//output image of WMS-Request should be transparent
 		boolean transparent = true;
 		
 		//dimensions of the output image					
