@@ -1,5 +1,7 @@
 package eot_graf_mirkovic_papp;
 
+import javax.swing.JOptionPane;
+
 import org.geotools.data.ows.Layer;
 
 import eot_graf_mirkovic_papp.WMSConnector;
@@ -18,13 +20,16 @@ public class GoogleEarthTweetMapper {
 		graphicalUserInterface gui = new graphicalUserInterface();
 		gui.runGUI();
 		
+		//to do: before any further instructions are read we must wait for the user to finish the
+		//inputs
+		
 		/*
 		 * now, we can extract the user-entered values from the GUI
 		 */
 		
 		//URL of the WMS-Server
 		String URLString = gui.tfURL.getText();
-		//Bounding Box (xmin,ymin,xmax,ymax)
+		//Bounding Box (xmin,ymin,xmax,ymax) as single String
 		String bbox = gui.tfBbox.getText();
 		//spatial reference system
 		String SRS = gui.tfSRS.getText();
@@ -36,7 +41,7 @@ public class GoogleEarthTweetMapper {
 		//output image of WMS-Request should be transparent
 		boolean transparent = true;
 		
-		//dimensions of the output image					
+		//dimensions of the output image -> user input??				
 		String[] imageDimensions = {"250", "250"};
 		
 		// call the constructor of the WMS-Connector class and instantiate an object of this class
@@ -45,12 +50,15 @@ public class GoogleEarthTweetMapper {
 		
 		Layer[] layers = con.getLayerList();
 		
-		//TEST!!!
+		//TEST!!! -> to do: Layer should be chosen by user
 		
 		int status = con.retrieveImageFromWMS(layers[3]);
 		
-		System.out.println(status);
-
+		if (status == 0) {
+			JOptionPane.showMessageDialog
+				(gui, "Finished!");
+		}
 	}
 
 }
+
