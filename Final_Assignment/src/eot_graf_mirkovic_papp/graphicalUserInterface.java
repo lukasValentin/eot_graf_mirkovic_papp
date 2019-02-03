@@ -1,6 +1,7 @@
 package eot_graf_mirkovic_papp;
 
 import java.awt.EventQueue;
+import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -8,14 +9,20 @@ import java.io.File;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableModel;
 
 import org.geotools.data.ows.Layer;
 
@@ -23,6 +30,8 @@ import org.geotools.data.ows.Layer;
 public class graphicalUserInterface extends JDialog {
 	
 	private static final long serialVersionUID = 1L;
+
+	private static final String JTableHeader = null;
 	
 	//setup up the GUI elements -> are private
 	private JPanel contentPanel;
@@ -40,6 +49,8 @@ public class graphicalUserInterface extends JDialog {
 	public String bbox;
 	public String tweetFile;
 	public String storageLocation;
+	
+	public int rowIndex;
 	
 	//specify the frame of the GUI
 	//therefore, the constructor of graphicalUserInterface is used
@@ -218,16 +229,10 @@ public class graphicalUserInterface extends JDialog {
 				
 				if (e.getSource() == goButton) {
 					
-					//try to run the GUI -> call run GUI method
-					int res = 
-							JOptionPane.showConfirmDialog(null, null, "The program will start now!", JOptionPane.PLAIN_MESSAGE);
-					if (res == JOptionPane.OK_OPTION) {
-						
-						//get the current thread and stop it
+						//run the next step
 						callWMSConnector();
-					}
 					
-			} //end if
+				} //end if
 				
 		  } //end actionPerformed
 			
@@ -316,22 +321,95 @@ public class graphicalUserInterface extends JDialog {
 		WMSConnector con = new WMSConnector
 						(URLString, bbox, SRS, storageLocation, 
 								transparent, imageDimensions);
-				
+		
+		// get a list of all available layers from the WMS
 		Layer[] layers = con.getLayerList();
 		
-		//TEST!!! -> to do: Layer should be chosen by user
+		//now one layer must be chosen from all layers available from the WMS
+		//therefore, a table is used
+		JTable layerTable = new JTable();
+		layerTable.setFillsViewportHeight(true);
 		
-		int status = con.retrieveImageFromWMS(layers[3]);
+		//setup a table model
+		//column names
+		final String[] colNames = {"Layer-Number", "Layer-Name"};
 		
-		if (status == 0) {
-			JOptionPane.showMessageDialog
-				(contentPanel, "Finished!");
+		TableModel layerTableModel = new DefaultTableModel(
+				new String[layers.length][colNames.length], colNames);
 		
-		} // end if
+		layerTable.setModel(layerTableModel);
+		
+		//write content to the table
+		//write down the number and the title of the layers available
+		for (int ii=0; ii<layers.length; ii++) {
+			
+			String layerName = (String) layers[ii].getTitle();
+			
+			String rowNumber = new Integer(ii).toString();
+			layerTable.getModel().setValueAt(rowNumber, ii, 0);
+			layerTable.getModel().setValueAt(layerName, ii, 1);
+			
+		}
+		
+		//it is required to select a row but not a column
+		layerTable.setRowSelectionAllowed(true);
+        layerTable.setColumnSelectionAllowed(false);
+        
+        //a selection tool for a certain row is required to allow for user-defined layer selection
+        JButton selectLayer = new JButton("Select");
+        
+        //row Index of the selected row (required to determine the selected layer)
+        rowIndex = 0;
+        
+        //an actionListener is required again
+        selectLayer.addActionListener(new ActionListener() {
+        	
+            public void actionPerformed(ActionEvent e) {
+            	
+            	if (e.getSource() == selectLayer) {
+            	
+            		//we need the number of the selected row
+            		int selRow = layerTable.getSelectedRow();
+            		int selCol = layerTable.getSelectedColumn();
+
+            		try {
+            			rowIndex = Integer.parseInt((String) layerTable.getValueAt(selRow, selCol));
+            		} catch (NumberFormatException numEx) {
+            			numEx.printStackTrace();
+            		}
+                
+            		//handle out of bound exceptions
+            		if (rowIndex < 0 || rowIndex >= layerTable.getRowCount()) {
+            			JOptionPane.showMessageDialog(layerTable, "Selection out of range!");
+            		} 
+            		
+            		// call the next method to continue
+            		retrieveImgFromWMS(con, layers);
+            	}
+            
+            }
+            
+        });
+        
+		
+		//the table will be shown in a new window
+        JPanel layerPanel = new JPanel();
+        layerPanel.setBounds(200,200,250,300);
+        layerPanel.add(layerTable);
+		layerPanel.add(selectLayer);
+		
+		JOptionPane.showMessageDialog(null, layerPanel);
+       
+		
+	} // end method
 	
-	} // end method 
-	
+	private void retrieveImgFromWMS(WMSConnector wmsConn_, Layer[] layers_) {
 		
-} //end class graphicalUserInterface
+		wmsConn_.retrieveImageFromWMS(layers_[rowIndex]);
+		
+	}
+	
+} // end class
+	
 
 

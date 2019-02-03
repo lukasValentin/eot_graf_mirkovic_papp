@@ -1,10 +1,6 @@
 package eot_graf_mirkovic_papp;
 
 
-import org.geotools.data.ows.Layer;
-
-import eot_graf_mirkovic_papp.WMSConnector;
-
 /*
  * this public class holds the main method
  */

@@ -231,6 +231,8 @@ public class WMSConnector {
 		// set the desired layer into the request
 		mapRequest.addLayer(layerName_);
 		
+		System.out.println(SRS + layerName_.getTitle());
+		
 		// now, as all parameters of the request are specified, the response could be requested and read as image
 		GetMapResponse response = null;
 		
