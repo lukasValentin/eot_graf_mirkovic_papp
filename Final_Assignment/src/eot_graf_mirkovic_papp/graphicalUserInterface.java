@@ -1,7 +1,6 @@
 package eot_graf_mirkovic_papp;
 
 import java.awt.EventQueue;
-import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -9,11 +8,9 @@ import java.io.File;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -21,7 +18,6 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 
 import org.geotools.data.ows.Layer;
@@ -30,8 +26,6 @@ import org.geotools.data.ows.Layer;
 public class graphicalUserInterface extends JDialog {
 	
 	private static final long serialVersionUID = 1L;
-
-	private static final String JTableHeader = null;
 	
 	//setup up the GUI elements -> are private
 	private JPanel contentPanel;
