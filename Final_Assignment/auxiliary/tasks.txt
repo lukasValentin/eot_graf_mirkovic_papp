@@ -1,0 +1,12 @@
+To do:
+
+	Stefan: make KML ground-overlay using the downloaded image (result from WMS request)
+		insert the extracted tweets into kml structure
+		=> create kml structure and store it as *.kml file (you can use String variable to specify the storage directory -> this info comes from the user)
+
+	Levente:extract the tweets from the CSV and store in a array -> should be used by Stefan for his class
+		start GoogleEarth with the kml from Stefan
+
+	Lukas: create WMS-Request and store the result as image locally (actually done but WMS is a nasty beast...)
+	       create main method to perform all required steps (incl. GUI) 
+
