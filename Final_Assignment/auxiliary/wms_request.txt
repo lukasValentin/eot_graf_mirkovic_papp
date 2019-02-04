@@ -2,4 +2,32 @@ http://129.206.228.72/cached/osm/WMSServer?REQUEST=GetCapabilities&SERVICE=WMS&V
 
 http://129.206.228.72/cached/osm/WMSServer?REQUEST=GetMap&VERSION=1.1.1&LAYERS=osm_auto:all&BBOX=-71.13,42.32,-71.03,42.42&FORMAT=image/png&SRS=EPSG:4326&WIDTH=250&HEIGHT=250&STYLES=default&TRANSPARENT=True
 
+http://129.206.228.72/cached/osm/service/WMSServer?SERVICE=WMS&LAYERS=osm_auto%3Aall&SRS=EPSG:4326&FORMAT=image%2Fpng&HEIGHT=250&TRANSPARENT=TRUE&REQUEST=GetMap&BBOX=-71.13,42.32,-71.03,42.42&WIDTH=250&STYLES=&VERSION=1.1.1
+
+
+// a GetMap-Request object is created using the established wms connection
+		GetMapRequest mapRequest = wmsServer.createGetMapRequest();
+		
+		//define version
+		mapRequest.setVersion("1.1.1");
+		
+		// define the output format -> png (is fixed for all requests)
+		mapRequest.setFormat("image/png");
+		
+		// set the dimensions of the returned image
+		mapRequest.setDimensions(imageDimensions[0], imageDimensions[1]);
+		
+		// should the image be transparent?
+		mapRequest.setTransparent(transparent);
+		
+		// SRS must be specified
+		mapRequest.setSRS(SRS);
+		
+		// setup the bounding box -> therefore the double array must be converted to a single string
+		// therefore the private method getSRSAsString is called
+		mapRequest.setBBox(bbox);
+		
+		// set the desired layer into the request
+		mapRequest.addLayer(layerName_);
+
 

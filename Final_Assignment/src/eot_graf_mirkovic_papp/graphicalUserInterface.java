@@ -1,5 +1,6 @@
 package eot_graf_mirkovic_papp;
 
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +12,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -223,9 +225,12 @@ public class graphicalUserInterface extends JDialog {
 				
 				if (e.getSource() == goButton) {
 					
+						//close the window after the button was pressed
+						graphicalUserInterface.this.dispose();
+						
 						//run the next step
 						callWMSConnector();
-					
+	
 				} //end if
 				
 		  } //end actionPerformed
@@ -364,11 +369,13 @@ public class graphicalUserInterface extends JDialog {
             	
             		//we need the number of the selected row
             		int selRow = layerTable.getSelectedRow();
-            		int selCol = layerTable.getSelectedColumn();
+            		int selCol = 0; //column with the layer Names
 
             		try {
             			rowIndex = Integer.parseInt((String) layerTable.getValueAt(selRow, selCol));
             		} catch (NumberFormatException numEx) {
+            			JOptionPane.showMessageDialog(null, 
+            					"The layer selection failed!", "Error", JOptionPane.WARNING_MESSAGE);
             			numEx.printStackTrace();
             		}
                 
@@ -379,6 +386,7 @@ public class graphicalUserInterface extends JDialog {
             		
             		// call the next method to continue
             		retrieveImgFromWMS(con, layers);
+            		
             	}
             
             }
@@ -388,11 +396,16 @@ public class graphicalUserInterface extends JDialog {
 		
 		//the table will be shown in a new window
         JPanel layerPanel = new JPanel();
-        layerPanel.setBounds(200,200,250,300);
-        layerPanel.add(layerTable);
+        layerPanel.setBounds(10,10,250,300);
+        JScrollPane scrollPane = new JScrollPane(layerTable);
+        
+        //add the table and the button to the panel
+        layerPanel.add(scrollPane);
 		layerPanel.add(selectLayer);
 		
-		JOptionPane.showMessageDialog(null, layerPanel);
+		//set the dimensions and display the window
+		UIManager.put("showMessageDialog.minimumSize",new Dimension(300,400)); 
+		JOptionPane.showMessageDialog(null, layerPanel, "Select a layer", JOptionPane.PLAIN_MESSAGE);
        
 		
 	} // end method
