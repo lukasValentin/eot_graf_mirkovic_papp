@@ -286,7 +286,10 @@ public class graphicalUserInterface extends JDialog {
 					
 					
 				} catch (Exception ex){
-			
+					
+					JOptionPane.showMessageDialog(null, "An error occurred while requesting data", "Error",
+							JOptionPane.ERROR_MESSAGE);
+					
 					ex.printStackTrace();
 			
 				} //end try catch

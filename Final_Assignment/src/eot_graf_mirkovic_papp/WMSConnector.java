@@ -219,7 +219,7 @@ public class WMSConnector {
 		GetMapRequest mapRequest = wmsServer.createGetMapRequest();
 		
 		//define version
-		mapRequest.setVersion("1.3.0");
+		mapRequest.setVersion("1.1.1");
 		
 		// define the output format -> png (is fixed for all requests)
 		mapRequest.setFormat("image/png");
@@ -240,8 +240,8 @@ public class WMSConnector {
 		// set the desired layer into the request
 		mapRequest.addLayer(layerName_);
 		
+		//String request = mapRequest.toString();
 		
-		System.out.println(SRS + layerName_.getTitle());
 		
 		// now, as all parameters of the request are specified, the response could be requested and read as image
 		GetMapResponse response = null;
