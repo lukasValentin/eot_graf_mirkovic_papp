@@ -21,7 +21,7 @@ import org.geotools.ows.ServiceException;
 
 /*
  * this public class connects to a WMS service 
- * and retrieves a basemap within a predifined bounding
+ * and retrieves a basemap within a predefined bounding
  * box and stores it locally on the computer
  */
 
@@ -167,7 +167,7 @@ public class WMSConnector {
 	
 	//method to connect to WMS-Server (opens a connection for a given URL) -> is private
 	//returns a WebMapServer object
-	public WebMapServer connectWMS() throws Exception {
+	private WebMapServer connectWMS() throws Exception {
 		
 		//setup the server connection using URL
 		URL url = null;
@@ -201,7 +201,7 @@ public class WMSConnector {
 	}
 	
 	//method to retrieve an image of the requested layer in a user-defined region from a given WMS-Server
-	public int retrieveImageFromWMS(Layer layerName_) {
+	public int retrieveImageFromWMS(Layer layerName_) throws Exception{
 		
 		//open the WMS connection
 		WebMapServer wmsServer = null;
@@ -209,12 +209,14 @@ public class WMSConnector {
 			wmsServer = connectWMS();
 		} catch (Exception e2) {
 			System.out.println("Unable to request from WMS-Server!");
-			e2.printStackTrace();
+			e2.printStackTrace(); 
 		}
 		
 		//setup the WMS request parameters
 		
-		// a GetMap-Request object is created using the established WMS connection
+		//a GetMap-Request object is created using the established WMS connection
+		//we use WMS1_0_0 as newer versions (especially 1.3.0) are not supported by
+		//every WMS server
 		WMS1_0_0.GetMapRequest mapRequest = 
 				(org.geotools.data.wms.WMS1_0_0.GetMapRequest) wmsServer.createGetMapRequest();
 		

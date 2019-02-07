@@ -24,6 +24,21 @@ import javax.swing.table.TableModel;
 
 import org.geotools.data.ows.Layer;
 
+import eot_graf_mirkovic_papp.WMSConnector;
+
+/*
+ * this public class extends the JDialog class in order
+ * to provide a graphical user interface for enhanced
+ * user interaction
+ * 
+ * the user is asked to enter the URL of the WMS-Server,
+ * the spatial reference system, the extent of the bounding box
+ * as well as the location of the CSV file containing the twitter data
+ * and where to store the image resulting from the WMS getMap request
+ * 
+ * it also calls directly the WMSConnector class as also the selection
+ * of the desired layer is based on a user selection
+ */
 
 public class graphicalUserInterface extends JDialog {
 	
@@ -39,7 +54,8 @@ public class graphicalUserInterface extends JDialog {
 	private JButton openButton;
 	private JTextArea chosenLoc;
 	
-	//the values the user enters are public
+	//the values the user enters are public as they are accessed by other
+	//other classes (WMSConnector)
 	public String URLString;
 	public String SRS;
 	public String bbox;
@@ -257,7 +273,7 @@ public class graphicalUserInterface extends JDialog {
 	
 	} // end of constructor
 	
-	
+	//method to run the GUI 
 	public void runGUI() {
 	
 		//setup a specific look and feel -> surround with try-catch
@@ -372,7 +388,7 @@ public class graphicalUserInterface extends JDialog {
             	
             		//we need the number of the selected row
             		int selRow = layerTable.getSelectedRow();
-            		int selCol = 0; //column with the layer Names
+            		int selCol = 0; //column with the layer number -> is used for selection
 
             		try {
             			rowIndex = Integer.parseInt((String) layerTable.getValueAt(selRow, selCol));
@@ -388,7 +404,7 @@ public class graphicalUserInterface extends JDialog {
             		} 
             		
             		// call the next method to continue
-            		retrieveImgFromWMS(con, layers);
+            		retrieveImgFromWMS(con, layers[selRow]);
             		
             	}
             
@@ -413,9 +429,25 @@ public class graphicalUserInterface extends JDialog {
 		
 	} // end method
 	
-	private void retrieveImgFromWMS(WMSConnector wmsConn_, Layer[] layers_) {
+	//method to retrieve an image as the result of the WMS getMap request
+	private void retrieveImgFromWMS(WMSConnector wmsConn_, Layer layer_) {
 		
-		wmsConn_.retrieveImageFromWMS(layers_[rowIndex]);
+		//call the retrieveImageFromWMS method from the WMSConnector class
+		int status = 0;
+		
+		try {
+			status = wmsConn_.retrieveImageFromWMS(layer_);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Retrieval of image from WMS failed!",
+					"Error", JOptionPane.ERROR_MESSAGE);
+		}
+		
+		//if status is zero everything's fine -> let the user know
+		if (status == 0) {
+			
+			JOptionPane.showMessageDialog(null, "Retrieval of image from WMS successfull!",
+					"Good News", JOptionPane.PLAIN_MESSAGE);
+		}
 		
 	}
 	
