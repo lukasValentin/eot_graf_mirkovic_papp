@@ -307,6 +307,7 @@ public class graphicalUserInterface extends JDialog {
 		
 		//collect the user-inputs from the GUI
 		URLString = tfURL.getText();
+		
 		bbox = tfBbox.getText();
 		SRS = tfSRS.getText();
 		storageLocation = chosenLoc.getText();
@@ -317,8 +318,7 @@ public class graphicalUserInterface extends JDialog {
 				
 		//dimensions of the output image -> user input??				
 		String[] imageDimensions = {"250", "250"};
-				
-				
+						
 		// call the constructor of the WMS-Connector class and instantiate an object of this class
 		WMSConnector con = new WMSConnector
 						(URLString, bbox, SRS, storageLocation, 

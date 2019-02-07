@@ -4,6 +4,7 @@ http://129.206.228.72/cached/osm/WMSServer?REQUEST=GetMap&VERSION=1.1.1&LAYERS=o
 
 http://129.206.228.72/cached/osm/service/WMSServer?SERVICE=WMS&LAYERS=osm_auto%3Aall&SRS=EPSG:4326&FORMAT=image%2Fpng&HEIGHT=250&TRANSPARENT=TRUE&REQUEST=GetMap&BBOX=-71.13,42.32,-71.03,42.42&WIDTH=250&STYLES=&VERSION=1.1.1
 
+http://giswebservices.massgis.state.ma.us/geoserver/wms
 
 // a GetMap-Request object is created using the established wms connection
 		GetMapRequest mapRequest = wmsServer.createGetMapRequest();

@@ -5,20 +5,19 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ServiceConfigurationError;
 
 import javax.imageio.ImageIO;
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
-import org.geotools.data.wms.request.GetMapRequest;
 import org.geotools.data.wms.response.GetMapResponse;
 import org.geotools.data.ows.Layer;
 import org.geotools.data.ows.WMSCapabilities;
+import org.geotools.data.wms.WMS1_0_0;
 import org.geotools.data.wms.WMSUtils;
 import org.geotools.data.wms.WebMapServer;
 import org.geotools.ows.ServiceException;
 
-import jdk.internal.org.xml.sax.SAXException;
 
 /*
  * this public class connects to a WMS service 
@@ -151,7 +150,7 @@ public class WMSConnector {
 		WebMapServer wmsServer = null;
 		try {
 			wmsServer = connectWMS();
-		} catch (SAXException e) {
+		} catch (Exception e) {
 			JOptionPane.showMessageDialog(
 					null,"Unable to request from WMS-Server!", "Error", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
@@ -168,7 +167,7 @@ public class WMSConnector {
 	
 	//method to connect to WMS-Server (opens a connection for a given URL) -> is private
 	//returns a WebMapServer object
-	private WebMapServer connectWMS() throws SAXException {
+	public WebMapServer connectWMS() throws Exception {
 		
 		//setup the server connection using URL
 		URL url = null;
@@ -208,7 +207,7 @@ public class WMSConnector {
 		WebMapServer wmsServer = null;
 		try {
 			wmsServer = connectWMS();
-		} catch (SAXException e2) {
+		} catch (Exception e2) {
 			System.out.println("Unable to request from WMS-Server!");
 			e2.printStackTrace();
 		}
@@ -216,10 +215,11 @@ public class WMSConnector {
 		//setup the WMS request parameters
 		
 		// a GetMap-Request object is created using the established WMS connection
-		GetMapRequest mapRequest = wmsServer.createGetMapRequest();
+		WMS1_0_0.GetMapRequest mapRequest = 
+				(org.geotools.data.wms.WMS1_0_0.GetMapRequest) wmsServer.createGetMapRequest();
 		
 		//define version
-		mapRequest.setVersion("1.1.1");
+		mapRequest.setVersion("1.0.0");
 		
 		// define the output format -> png (is fixed for all requests)
 		mapRequest.setFormat("image/png");
@@ -231,7 +231,7 @@ public class WMSConnector {
 		mapRequest.setTransparent(transparent);
 		
 		// SRS must be specified
-		mapRequest.setSRS(SRS);
+		 mapRequest.setSRS(SRS);
 		
 		// setup the bounding box -> therefore the double array must be converted to a single string
 		// therefore the private method getSRSAsString is called
@@ -239,9 +239,6 @@ public class WMSConnector {
 		
 		// set the desired layer into the request
 		mapRequest.addLayer(layerName_);
-		
-		//String request = mapRequest.toString();
-		
 		
 		// now, as all parameters of the request are specified, the response could be requested and read as image
 		GetMapResponse response = null;
@@ -262,12 +259,13 @@ public class WMSConnector {
 		//surround with try and catch
 		try {
 			responseAsImg = ImageIO.read(response.getInputStream());
-		} catch (IOException e) {
+		} catch (IOException | ServiceConfigurationError e) {
 			JOptionPane.showMessageDialog(
 					null,"The server response could not be converted to an image stream!",
 					"Error", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
+		
 		
 		//last, store the image on the disk of the computer
 		File outputfile = new File(storageLocation + "WMS_Response.png");
@@ -283,6 +281,7 @@ public class WMSConnector {
 			e.printStackTrace();
 			
 		}
+		
 		
 		//return 0 if everything was fine
 		return succCode;
