@@ -8,6 +8,8 @@ package eot_graf_mirkovic_papp;
 
 public class Img2GroundOverlay {
 
+	// I'll need something like this: path variable, boundingbox variable, title/<name> variable, description variable
+	
 	/*
 	 * Sample Code (Salzburg is used)
 	 * 
