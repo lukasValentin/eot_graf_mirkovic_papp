@@ -270,7 +270,7 @@ public class WMSConnector {
 		
 		
 		//last, store the image on the disk of the computer
-		File outputfile = new File(storageLocation + "WMS_Response.png");
+		File outputfile = new File(storageLocation + System.getProperty("file.separator") + "WMS_Response.png");
 		
 		//surround with try-catch
 		try {

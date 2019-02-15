@@ -2,6 +2,8 @@ http://129.206.228.72/cached/osm/WMSServer?REQUEST=GetCapabilities&SERVICE=WMS&V
 
 http://129.206.228.72/cached/osm/WMSServer?REQUEST=GetMap&VERSION=1.1.1&LAYERS=osm_auto:all&BBOX=-71.13,42.32,-71.03,42.42&FORMAT=image/png&SRS=EPSG:4326&WIDTH=250&HEIGHT=250&STYLES=default&TRANSPARENT=True
 
+http://129.206.228.72/cached/osm/WMSServer?REQUEST=GetMap&VERSION=1.1.1&LAYERS=osm_auto:all&BBOX=-74.10,40.56,-73.64,40.95&FORMAT=image/png&SRS=EPSG:4326&WIDTH=250&HEIGHT=250&STYLES=default&TRANSPARENT=True
+
 http://129.206.228.72/cached/osm/service/WMSServer?SERVICE=WMS&LAYERS=osm_auto%3Aall&SRS=EPSG:4326&FORMAT=image%2Fpng&HEIGHT=250&TRANSPARENT=TRUE&REQUEST=GetMap&BBOX=-71.13,42.32,-71.03,42.42&WIDTH=250&STYLES=&VERSION=1.1.1
 
 http://giswebservices.massgis.state.ma.us/geoserver/wms
@@ -30,5 +32,97 @@ http://giswebservices.massgis.state.ma.us/geoserver/wms
 		
 		// set the desired layer into the request
 		mapRequest.addLayer(layerName_);
+
+
+
+package eot_graf_mirkovic_papp;
+
+import java.io.IOException;
+
+import javax.swing.JOptionPane;
+
+import org.ejml.ops.EjmlUnitTests.TestException;
+
+/*
+ * this public class holds the main method
+ * 
+ * authors -> classes:
+ * Lukas Graf		-> grahicalUserInterface and WMSConnector
+ * Stefan Mirkovic	-> Img2GroundOverlay and Tweets2KML
+ * Levente Papp		->
+ * 
+ * GoogleEarthMapper is a collection of Java classes to
+ * 1.) 	connect to the WMS-Server and download a rendered map for a selected
+ * 		region as a png image file
+ * 2.) 	include the downloaded image file in a kml structure as well as
+ * 		tweets extracted from a CSV file
+ * 3.) 	automatically start GoogleEarth with the generated kml files for displaying
+ * 		the results
+ * 
+ * uses geotools 18.4
+ * 
+ */
+
+
+	
+	public static void doNextSteps(graphicalUserInterface gui_) {
+		
+		//after running the GUI we have all the user inputs as well as the WMS-Server
+		//response necessary to perform the next steps
+		//a ground-overlay is created using the WMS-Server response
+		
+		System.out.println("Test");
+		
+		String outputDir = gui_.storageLocation;
+		
+		//the WMS-Server response is stored at storageLocation
+		String imageSource = outputDir + System.getProperty("file.separator") + 
+				"WMS_Response.png";
+		
+		//we need a name for the kml structure (will be stored at user-def. storageLocation)
+		String kmlFilePath = outputDir + System.getProperty("file.separator") + 
+				"groundOverlayTweets.kml";
+		
+		//some content of the kml must be set
+		String nameOfOverlay = "Basemap";
+		
+		//add a short description
+		String description = "This is an automatically created description. You can change it manually if you like.";
+		
+		//also the coordinates of the bounding box are required
+		//therefore, we use the method bbox2array from the auxClass
+		double[] bboxArray = new double[4];
+		
+		//surround with try-catch in case something goes wrong
+		try {
+			
+			bboxArray = auxClass.bbox2array(gui_.bbox);
+			
+		} catch (IOException | TestException ex) {
+			
+			JOptionPane.showMessageDialog(null,"The bounding box is invalid", 
+					"Error", JOptionPane.ERROR_MESSAGE);
+			ex.printStackTrace();
+			
+		}
+		
+		//now the kml groundOverlay can be created
+		boolean success = Img2GroundOverlay.WriteToKML(
+				kmlFilePath, imageSource, nameOfOverlay, description, 
+				bboxArray[3], bboxArray[1], bboxArray[2], bboxArray[0]);
+		
+		//the methods returns True (everything OK) or False, if something went wrong
+		if (!success) {
+			JOptionPane.showMessageDialog(null, "Could not create kml Ground-Overlay",
+					"Error", JOptionPane.ERROR_MESSAGE);
+		} else {
+			JOptionPane.showMessageDialog(null, "KML Ground-Overlay created successfully!",
+					"Good News", JOptionPane.INFORMATION_MESSAGE);
+		}
+
+	}
+	
+}
+
 
 
