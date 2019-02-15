@@ -30,7 +30,16 @@ public class GoogleEarthTweetMapper {
 		//run the GUI for user input collection and WMS GetMap retrieval
 		graphicalUserInterface gui = new graphicalUserInterface();
 		gui.runGUI();
-		//Img2GroundOverlay.WriteToKML("absolute path");
+		
+		/*String FilePath = "C:\\Users\\Stefan\\git\\eot_graf_mirkovic_papp\\Final_Assignment\\auxiliary\\testing.kml"; // destination path
+		String ImageSource = "C:\\Users\\Stefan\\git\\eot_graf_mirkovic_papp\\Final_Assignment\\auxiliary\\wfs.png"; 
+		String name = "test file";
+		String description = "did it work?"; 
+		double north = 40.95; 
+		double south = 40.56; 
+		double east = -73.63;
+		double west = -74.10;
+		Img2GroundOverlay.WriteToKML(FilePath, ImageSource, name, description, north, south, east, west);*/
 	
 	}
 	

@@ -24,6 +24,8 @@ public class Img2GroundOverlay {
 					"<GroundOverlay> \r\n"+
 					"<name>"+name+"</name> \r\n"+
 					"<description>"+description+"</description> \r\n"+
+					"<gx:balloonVisibility>1</gx:balloonVisibility> \r\n"+
+					"<color>4dffffff</color> \r\n"+ //Opacity-value "alpha" ("alpha"RGB-syntax) --> 30% of 255 = 4d (HEX)
 					"<Icon> \r\n"+
 					"	<href>"+ImageSource+"</href> \r\n"+
 					"</Icon> \r\n"+
