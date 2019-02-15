@@ -9,7 +9,7 @@ import java.io.FileWriter;
 
 public class Tweets2KML {
 
-	public static boolean WriteToKML(TweetData[] TweetArray) { 
+	public static boolean WriteToKML(String FilePath, TweetData[] TweetArray) { 
 		try {
 			  File file = new File(FilePath);
 		      
