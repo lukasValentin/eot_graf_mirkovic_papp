@@ -7,4 +7,7 @@ package eot_graf_mirkovic_papp;
 
 public class Tweets2KML {
 
+	public static void WriteToKML(TweetData[] TweetArray) { 
+		
+	}
 }
