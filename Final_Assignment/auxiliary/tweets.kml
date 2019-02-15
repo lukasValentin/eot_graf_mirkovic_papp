@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document> 
+<Placemark>
+	<name>2018-06-02</name>
+   <description>Welcome to NY!</description>
+	<Style id="sh_ylw-pushpin"> 
+		<BalloonStyle>
+			<text><h3>$[name]</h3>$[description]</text> 
+		</BalloonStyle> 
+	</Style> 
+   <Point>
+   	<coordinates>-74.056842, 40.654747, 0</coordinates>
+   </Point>
+  </Placemark>
+<Placemark>
+	<name>2018-05-12</name>
+   <description>Welcome to LA!</description>
+	<Style id="sh_ylw-pushpin"> 
+		<BalloonStyle>
+			<text><h3>$[name]</h3>$[description]</text> 
+		</BalloonStyle> 
+	</Style> 
+   <Point>
+   	<coordinates>-101.056842, 35.654747, 0</coordinates>
+   </Point>
+  </Placemark>
+<Placemark>
+	<name>2018-11-22</name>
+   <description>Welcome to SF!</description>
+	<Style id="sh_ylw-pushpin"> 
+		<BalloonStyle>
+			<text><h3>$[name]</h3>$[description]</text> 
+		</BalloonStyle> 
+	</Style> 
+   <Point>
+   	<coordinates>-102.056842, 37.654747, 0</coordinates>
+   </Point>
+  </Placemark>
+</Document> 
+</kml>

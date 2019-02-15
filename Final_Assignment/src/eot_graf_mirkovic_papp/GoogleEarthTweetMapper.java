@@ -324,7 +324,14 @@ public class GoogleEarthTweetMapper extends JDialog {
 
 		}); //end runnable
 		
-
+		/* 
+		 * 
+		 * String SavePath="C:\\Users\\Stefan\\git\\eot_graf_mirkovic_papp\\Final_Assignment\\auxiliary\\tweets.kml";
+		TweetData[] TweetArray= {	new TweetData("Welcome to NY!" , "2018-06-02", -74.056842, 40.654747),
+									new TweetData("Welcome to LA!" , "2018-05-12", -101.056842, 35.654747),
+									new TweetData("Welcome to SF!" , "2018-11-22", -102.056842, 37.654747)
+		};
+		Tweets2KML.WriteToKML(SavePath, TweetArray); */
 	} // end runGUI()
 	
 	//private method to call the WMS-Connector
