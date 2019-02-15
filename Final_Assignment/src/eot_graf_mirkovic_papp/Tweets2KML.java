@@ -9,8 +9,10 @@ import java.io.FileWriter;
 
 public class Tweets2KML {
 
-	public static boolean WriteToKML(String SavePath, TweetData[] TweetArray) { 
+	public static boolean WriteToKML(String SavePath, TweetData[] TweetArray) {
+		
 		try {
+			
 			  File file = new File(SavePath);   // creates the file
 		   
 		      file.createNewFile();
