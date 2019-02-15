@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<GroundOverlay> 
+<name>test file</name> 
+<description>did it work?</description> 
+<gx:balloonVisibility>1</gx:balloonVisibility> 
+<color>4dffffff</color> 
+<Icon> 
+	<href>C:\Users\Stefan\git\eot_graf_mirkovic_papp\Final_Assignment\auxiliary\wfs.png</href> 
+</Icon> 
+<LatLonBox> 
+	<north>40.95</north> 
+	<south>40.56</south> 
+	<east>-73.63</east> 
+	<west>-74.1</west> 
+</LatLonBox> 
+</GroundOverlay> 
+</kml> 
