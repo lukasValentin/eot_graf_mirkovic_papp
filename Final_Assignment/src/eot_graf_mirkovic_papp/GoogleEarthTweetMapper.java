@@ -5,7 +5,7 @@ package eot_graf_mirkovic_papp;
  * 
  * authors -> classes:
  * Lukas Graf		-> grahicalUserInterface and WMSConnector
- * Stefan Mirkovic	->
+ * Stefan Mirkovic	-> Img2GroundOverlay and Tweets2KML
  * Levente Papp		->
  * 
  * GoogleEarthMapper is a collection of Java classes to
@@ -30,6 +30,7 @@ public class GoogleEarthTweetMapper {
 		//run the GUI for user input collection and WMS GetMap retrieval
 		graphicalUserInterface gui = new graphicalUserInterface();
 		gui.runGUI();
+		//Img2GroundOverlay.WriteToKML("absolute path");
 	
 	}
 	

@@ -1,5 +1,6 @@
 package eot_graf_mirkovic_papp;
-
+import java.io.FileWriter;
+import java.io.File;
 /*
  * this public class takes the result of the WMS-Request (stored locally on the
  * computer as rendered image) and inserts it as KML GroundOverlay Element into a
@@ -8,6 +9,42 @@ package eot_graf_mirkovic_papp;
 
 public class Img2GroundOverlay {
 
+	public static boolean WriteToKML(String FilePath, String ImageSource, String name, String description, double north, double south, double east, double west) // no ";" because it's a method! 	
+	{		//"static" means that I don't need an extra object in order to call the method; "boolean" because we want to know whether the operation was successful									
+			//Inside the WriteToKML()-brackets we need to put in all dynamic content 
+		try
+		{
+			File file = new File(FilePath); // "File" creates a file object
+			file.createNewFile(); 			// creates a new File at the FilePath
+			FileWriter writer = new FileWriter(file); // The FileWriter is able to write into a file and at the constructor 
+			
+			writer.write( // writer.write shall write our typical kml-structure (for GroundOverlays)!
+					"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n"+
+					"<kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\" xmlns:kml=\"http://www.opengis.net/kml/2.2\" xmlns:atom=\"http://www.w3.org/2005/Atom\">\r\n"+
+					"<GroundOverlay> \r\n"+
+					"<name>"+name+"</name> \r\n"+
+					"<description>"+description+"</description> \r\n"+
+					"<Icon> \r\n"+
+					"	<href>"+ImageSource+"</href> \r\n"+
+					"</Icon> \r\n"+
+					"<LatLonBox> \r\n"+
+					"	<north>"+north+"</north> \r\n"+
+					"	<south>"+south+"</south> \r\n"+
+					"	<east>"+east+"</east> \r\n"+
+					"	<west>"+west+"</west> \r\n"+
+					"</LatLonBox> \r\n"+
+					"</GroundOverlay> \r\n"+
+					"</kml> \r\n"
+					);
+			writer.close();
+			return true; // return value is true, fine!
+		}
+		
+		catch (Exception e) 
+		{
+			return false; // return value is false = default
+		}
+	}
 	// I'll need something like this: path variable, boundingbox variable, title/<name> variable, description variable
 	
 	/*
