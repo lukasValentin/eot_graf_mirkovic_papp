@@ -17,5 +17,7 @@ public class TweetData {
 		created_at = inCreated_at;
 		lon = inLon;
 		lat = inLat;
+		
 	}
+	
 }

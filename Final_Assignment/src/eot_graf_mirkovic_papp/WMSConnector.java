@@ -247,12 +247,16 @@ public class WMSConnector {
 		
 		//surround with try and catch
 		try {
+			
 			response = (GetMapResponse) wmsServer.issueRequest(mapRequest);
+			
 		} catch (ServiceException | IOException e1) {
+			
 			JOptionPane.showMessageDialog(
 					null,"The server response could not be retrieved for the given WMS-Request!",
 					"Error", JOptionPane.ERROR_MESSAGE);
 			e1.printStackTrace();
+			
 		}
 		
 		// use ImageIO to read the response of the server as image
@@ -260,21 +264,31 @@ public class WMSConnector {
 		
 		//surround with try and catch
 		try {
+			
+			// get the stream returned from the server and read it as image
 			responseAsImg = ImageIO.read(response.getInputStream());
+			
 		} catch (IOException | ServiceConfigurationError e) {
+			
 			JOptionPane.showMessageDialog(
 					null,"The server response could not be converted to an image stream!",
 					"Error", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
+			
 		}
 		
 		
 		//last, store the image on the disk of the computer
-		File outputfile = new File(storageLocation + System.getProperty("file.separator") + "WMS_Response.png");
+		File outputfile = new File(storageLocation
+			+ (String) System.getProperty("file.separator")
+			+ "WMS_Response.png");
 		
 		//surround with try-catch
 		try {
+			
+			// requires the write method
 			ImageIO.write(responseAsImg, "png", outputfile);
+			
 		} catch (IOException e) {
 			
 			JOptionPane.showMessageDialog(
@@ -283,7 +297,6 @@ public class WMSConnector {
 			e.printStackTrace();
 			
 		}
-		
 		
 		//return 0 if everything was fine
 		return succCode;

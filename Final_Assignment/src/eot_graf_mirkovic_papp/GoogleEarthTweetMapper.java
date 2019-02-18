@@ -323,15 +323,7 @@ public class GoogleEarthTweetMapper extends JDialog {
 			} //end run()
 
 		}); //end runnable
-		
-		/* 
-		 * 
-		 * String SavePath="C:\\Users\\Stefan\\git\\eot_graf_mirkovic_papp\\Final_Assignment\\auxiliary\\tweets.kml";
-		TweetData[] TweetArray= {	new TweetData("Welcome to NY!" , "2018-06-02", -74.056842, 40.654747),
-									new TweetData("Welcome to LA!" , "2018-05-12", -101.056842, 35.654747),
-									new TweetData("Welcome to SF!" , "2018-11-22", -102.056842, 37.654747)
-		};
-		Tweets2KML.WriteToKML(SavePath, TweetArray); */
+
 	} // end runGUI()
 	
 	//private method to call the WMS-Connector
@@ -524,7 +516,49 @@ public class GoogleEarthTweetMapper extends JDialog {
 			JOptionPane.showMessageDialog(null, "KML Ground-Overlay created successfully!",
 					"Good News", JOptionPane.INFORMATION_MESSAGE);
 		}
-
+		
+		//at the same time we can read the tweets form the csv file using the CSVParser class
+		TweetData[] tweets4KML = null;
+		
+		try {
+			
+			tweets4KML = CSVParser.getTweets(tweetFile);
+			
+		} catch (IOException ioEx) {
+			
+			ioEx.printStackTrace();
+		}
+		
+		// after having extracted the tweets from the csv into the TweetData array
+		// we can write it to the kml file structure
+		
+		String kmlFilePathTweets = storageLocation
+				+ (String) System.getProperty("file.separator") 
+				+ "singleTweets.kml";
+		
+		success = Tweets2KML.WriteToKML(kmlFilePathTweets, tweets4KML);
+		
+		//the methods returns True (everything OK) or False, if something went wrong
+		if (!success) {
+			JOptionPane.showMessageDialog(null, "Could not create kml of the Tweets",
+					"Error", JOptionPane.ERROR_MESSAGE);
+		} else {
+			JOptionPane.showMessageDialog(null, "KML for Tweets created successfully! - GoogleEarth starts now!",
+					"Good News", JOptionPane.INFORMATION_MESSAGE);
+		}
+		
+		//finally, Google Earth can be started
+		try {
+			
+			StartGoogleEarth.startUpGoogleEarth(kmlFilePath, kmlFilePathTweets);
+			
+		} catch (IOException e) {
+			
+			JOptionPane.showMessageDialog(null, "Could not start Google Earth",
+					"Error", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+			
+		}
 		
 	}
 	
