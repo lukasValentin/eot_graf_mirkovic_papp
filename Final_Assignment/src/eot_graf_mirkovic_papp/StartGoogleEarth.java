@@ -4,7 +4,7 @@ import java.io.IOException;
 
 /*
  * this public class takes the KML files containing the GroundOverlay as well as the
- * Tweets and visualizes them using Google Earth Engine
+ * Tweets and visualizes them using Google Earth (must be installed)
  */
 
 public class StartGoogleEarth {
@@ -31,10 +31,11 @@ public class StartGoogleEarth {
 		//under Ubuntu 18.04 this is very simple
 		final String GoogleEarthUnix = "google-earth-pro";
 		
-		//and some more ugly Windows stuff
+		//and some more ugly Windows stuff -> not tested yet
 		final String GoogleEarthWin = 
 				"C:\\Program Files\\Google\\Google Earth Pro\\client\\googleearth";
 		
+		// which operating system is running your computer?
 		String osName = System.getProperty("os.name");
 		
 		if (osName.equalsIgnoreCase("Win")) {

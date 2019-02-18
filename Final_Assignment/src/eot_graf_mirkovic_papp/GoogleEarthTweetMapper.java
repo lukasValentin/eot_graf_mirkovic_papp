@@ -560,6 +560,8 @@ public class GoogleEarthTweetMapper extends JDialog {
 			
 		}
 		
+		//after that everything is done -> FINISH :)!!!
+		
 	}
 	
 } // end class
